@@ -1,0 +1,20 @@
+<app-header></app-header>
+<div style="overflow:auto;">
+  <table>
+    <tr>
+      <th colspan="2">Survey List</th>
+    </tr>
+    <tr>
+      <th>Survey Name</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let survey of surveyList">
+      <td>{{survey.form_name}}</td>
+      <td> <button [routerLink]="['/survey-view',survey._id]" routerLinkActive="router-link-active"
+        class="btn btn-sm btn-outline-dark">View Survey</button></td>
+    </tr>
+    <tr *ngIf="surveyList.length == 0">
+      <td colspan="2" style="color: gray; text-align: center;"> No survey found </td>
+    </tr>
+  </table>
+</div>
