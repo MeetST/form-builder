@@ -1,0 +1,213 @@
+<!--Main Navigation-->
+<header>
+  <nav style="background-color: black;" class="navbar fixed-top navbar-expand-lg navbar-dark pink scrolling-navbar">
+    <a class="navbar-brand" ><strong>Form Builder</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/create-survey']" routerLinkActive="router-link-active" >Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/create-survey']">List Forms</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+    
+</header>
+<!--Main Navigation-->
+<div style="align-items: center; margin-top: 100px;">
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      <h1><b>Create Your Form</b></h1>
+      <form>
+        <div class="form-group">
+          <div class="form-row align-items-center">
+            <div class="col-12">
+              <label class="form-label mb-0">Form Name</label>
+            </div>
+            <div class="form-group col-12">
+              <input [(ngModel)]="formName" id="formName" class="form-control" name="formName">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label mb-0">Form Description</label>
+            </div>
+            <div class="form-group col-12">
+              <textarea [(ngModel)]="formDesc" id="formDesc" class="form-control" name="formDesc"></textarea>
+            </div>
+
+            <h5><b>Add Questions</b></h5>
+            <div class="col-12">
+              <label class="form-label mb-0">Question</label>
+            </div>
+            <div class="form-group col-12">
+              <input [(ngModel)]="elementType.lable" id="lable" class="form-control" name="lable">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label mb-0">Question Type</label>
+            </div>
+            <div class="form-group col-12">
+              <select [(ngModel)]="elementType.Element" class="form-control" name="Element">
+                <option value="">--All--</option>
+                <option value="text">
+                  text
+                </option>
+                <option value="textarea">
+                  textarea
+                </option>
+                <option value="select">
+                  select
+                </option>
+                <option value="radio">
+                  radio
+                </option>
+                <option value="checkbox">
+                  checkbox
+                </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="col-md-3">
+    </div>
+
+  </div>
+
+  <div class="row"
+    *ngIf="elementType.Element=='select'|| elementType.Element=='radio' || elementType.Element=='checkbox'">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-3">
+        <button (click)="AddOption()" class="form-control">Add Option</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="form-row align-items-center">
+          <div *ngFor="let data of elementType.OptionValueList;let i= index">
+            <div class="col-12">
+              <label class="form-label mb-0">Option {{i+1}}</label>
+            </div>
+            <div class="form-group col-12">
+              <input [(ngModel)]="data.optionValue" #optionValue="ngModel" type="text" name="optionValue{{i}}"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+          <button (click)="AddElement()" class="form-control btn-primary">Save Question</button>
+        </div>
+        <div class="col-md-6">
+          <button *ngIf="elementTypeList.length>0" (click)="saveForm()" class="form-control btn-warning">Save
+            Form</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+
+<hr>
+<div style="align-items: center;" *ngIf="elementTypeList.length>0">
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      <h1 style="color: gray;"><b>Form Preview</b></h1>
+      <h4><b>{{formName}}</b></h4>
+      <h6><b>{{formDesc}}</b></h6>
+      <form>
+        <div class="form-group">
+          <div class="form-row align-items-center">
+            <ng-container *ngFor="let elementList of elementTypeList;let ii= index">
+              <ng-container *ngIf="elementList.Element=='select'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <select class="form-control">
+                    <option value="">--All--</option>
+                    <option *ngFor="let summary of elementList.OptionValueList" value={{summary.optionValue}}>
+                      {{summary.optionValue}}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.Element=='radio'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <ng-container *ngFor="let summary of elementList.OptionValueList; let i = index">
+                  <label class="container">{{summary.optionValue}}
+                    <input *ngIf="i == 0" checked type="radio" name="radio" value="{{summary.optionValue}}">
+                    <input *ngIf="i > 0" type="radio" name="radio" value="{{summary.optionValue}}">
+                  </label>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="elementList.Element=='text'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <input type="text" class="form-control">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.Element=='textarea'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <textarea class="form-control" rows="4"></textarea>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.Element=='checkbox'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <ng-container *ngFor="let summary of elementList.OptionValueList">
+                  <label class="container">{{summary.optionValue}}
+                    <input type="checkbox" value="{{summary.optionValue}}">
+                  </label>
+                </ng-container>
+
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <br />
+</div>
