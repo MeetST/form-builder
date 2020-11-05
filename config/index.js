@@ -1,8 +1,8 @@
 module.exports = {
   'PROJECT_NAME': 'form_builder',
-  'PORT': 3111,
-  'appHost': 'http://localhost:3111',
-  'apiHost': 'http://localhost:3111/v1',
+  'PORT': 4200,
+  'appHost': 'http://localhost:4200',
+  'apiHost': 'http://localhost:4200/v1',
 
   'database': {
     'mongoURL': 'mongodb://localhost/',
