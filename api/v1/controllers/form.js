@@ -1,3 +1,4 @@
+var TinyURL = require('tinyurl');
 const Form = require('../models/form');
 const Message = require('../../../config/message')
 
@@ -6,6 +7,7 @@ let _self = {
         let returnResp;
         Form
             .find()
+            .sort({_id: -1})
             .then((formList) => {
                 returnResp = {
                     message: Message.COMMON_SUCCESS,
@@ -23,28 +25,64 @@ let _self = {
             })
     },
 
+    getFormByShortCode: (req, res) => {
+        let returnResp;
+        Form
+            .findOne({
+                url_short_code: req.query.url_short_code
+            })
+            .then((form) => {
+                returnResp = {
+                    message: Message.COMMON_SUCCESS,
+                    data: form
+                }
+                res.status(200).send(returnResp)
+            }).catch((err) => {
+                returnResp = {
+                    message: Message.COMMON_ERROR,
+                    data: {}
+                }
+                res.status(400).send(returnResp)
+            })
+    },
+
     addForm: async (req, res) => {
         let returnResp;
+        console.log("req.body", req.body)
+        let shortCode = Math.random().toString(36).substr(2, 10);
         let newForm = new Form({
-            elements: req.body.elements
+            form_name: req.body.form_name,
+            form_desc: req.body.form_desc,
+            elements: req.body.elements,
+            url_short_code: shortCode
         });
-        newForm.save((err, result) => {
+        TinyURL.shorten(`http://localhost:5200/fill-survey/${shortCode}`, function (shortUrl, err) {
             if (err) {
-                console.log("err", err)
                 returnResp = {
                     message: Message.COMMON_ERROR,
                     data: {}
                 }
                 res.status(400).send(returnResp)
             } else {
-                returnResp = {
-                    message: Message.FORM_CREATED,
-                    data: {}
-                }
-                // response.setHeader('Content-Type', 'application/json')
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.header('Access-Control-Allow-Headers', "Content-Type");
-                res.status(200).send(returnResp)
+                console.log(shortUrl);
+                newForm.save((err, result) => {
+                    if (err) {
+                        console.log("err", err)
+                        returnResp = {
+                            message: Message.COMMON_ERROR,
+                            data: {}
+                        }
+                        res.status(400).send(returnResp)
+                    } else {
+                        returnResp = {
+                            message: Message.FORM_CREATED,
+                            data: {
+                                url: shortUrl
+                            }
+                        }
+                        res.status(200).send(returnResp)
+                    }
+                });
             }
         });
     }

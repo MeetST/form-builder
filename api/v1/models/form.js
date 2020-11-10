@@ -14,13 +14,18 @@ var schema = new Schema({
     form_desc: {
         type: String
     },
+    url_short_code: {
+        type: String
+    },
     elements: [{
         element_type: {
             type: String
         },
-        options: {
-            type: [String]
-        },
+        options: [{
+            optionValue: {
+                type: String
+            }
+        }],
         lable: {
             type: String
         }

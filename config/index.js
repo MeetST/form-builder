@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 module.exports = {
   'PROJECT_NAME': 'form_builder',
   'PORT': 4200,
@@ -7,6 +10,10 @@ module.exports = {
   'database': {
     'mongoURL': 'mongodb://localhost/',
     'use': 'mongodb'
-  }
+  },
+
+  'GOOGLE_CLIENT_ID': process.env.GOOGLE_CLIENT_ID || '',
+  'GOOGLE_CLIENT_SECRET': process.env.GOOGLE_CLIENT_SECRET || '',
+  'SESSION_SECRET_TOKEN': process.env.SESSION_SECRET_TOKEN || ''
 
 }

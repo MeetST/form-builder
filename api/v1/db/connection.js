@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const config = rootRequire('config')
+const config = require('../../../config')
 let connection
 
 // DB configuration

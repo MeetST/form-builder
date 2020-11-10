@@ -4,6 +4,10 @@ const connection = require('../db/connection')
 const Schema = mongoose.Schema
 
 var schema = new Schema({
+    googleId:{
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
