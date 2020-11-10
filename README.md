@@ -5,8 +5,11 @@ Run the following commands
 npm install
 
 create .env file root directory and set the values for below mentioned keys.
+
 SESSION_SECRET_TOKEN
+
 GOOGLE_CLIENT_ID
+
 GOOGLE_CLIENT_SECRET
 
 npm start
