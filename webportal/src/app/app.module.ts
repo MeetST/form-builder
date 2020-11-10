@@ -8,12 +8,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUIModule } from 'ng-block-ui';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { LogInComponent } from './log-in/log-in.component';
+import { ListFormsComponent } from './list-forms/list-forms.component';
+import { HeaderComponent } from './header/header.component';
+import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateSurveyComponent,
-    LogInComponent
+    LogInComponent,
+    ListFormsComponent,
+    HeaderComponent,
+    FillSurveyComponent
   ],
   imports: [
     BrowserModule,

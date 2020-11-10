@@ -1,0 +1,107 @@
+<div style="align-items: center; margin-top: 50px;" *ngIf="formDetails?.elements.length>0">
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      <h4><b>{{formDetails?.form_name}}</b></h4>
+      <h6 style="color: gray;"><b>{{formDetails?.form_desc}}</b></h6>
+      <form>
+        <div class="form-group">
+          <div class="form-row align-items-center">
+            <ng-container *ngFor="let elementList of formDetails?.elements;let ii= index">
+              <ng-container *ngIf="elementList.element_type=='select'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <select class="form-control">
+                    <option value="">--All--</option>
+                    <option *ngFor="let summary of elementList.options" value={{summary.optionValue}}>
+                      {{summary.optionValue}}
+                    </option>
+                  </select>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.element_type=='radio'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <ng-container *ngFor="let summary of elementList.options; let i = index">
+                  <label class="container">{{summary.optionValue}}
+                    <input *ngIf="i == 0" checked type="radio" name="radio" value="{{summary.optionValue}}">
+                    <input *ngIf="i > 0" type="radio" name="radio" value="{{summary.optionValue}}">
+                  </label>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="elementList.element_type=='text'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <input type="text" class="form-control">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.element_type=='textarea'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <div class="form-group col-12">
+                  <textarea class="form-control" rows="4"></textarea>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="elementList.element_type=='checkbox'">
+                <div class="col-12">
+                  <label class="form-label mb-0">{{elementList.lable}}</label>
+                </div>
+                <ng-container *ngFor="let summary of elementList.options">
+                  <label class="container">{{summary.optionValue}}
+                    <input type="checkbox" value="{{summary.optionValue}}">
+                  </label>
+                </ng-container>
+
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+          <button (click)="saveForm()" class="form-control btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <br />
+</div>
+
+<!-- <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+  <div *ngFor="let question of formDetails?.elements" class="form-row">
+    <label [attr.for]="question._id">{{question.lable}}</label>
+
+    <div [ngSwitch]="question.element_type">
+
+      <input *ngSwitchCase="'text'" [formControlName]="question._id" [id]="question._id" [type]="text">
+
+      <textarea *ngSwitchCase="'textarea'" [formControlName]="question._id" [id]="question._id" rows="4"></textarea>
+
+      <select [id]="question._id" *ngSwitchCase="'select'" [formControlName]="question._id">
+        <option *ngFor="let opt of question.options" [value]="opt._id">{{opt.value}}</option>
+      </select>
+
+      <div formGroupName="checkboxes">
+        <ul>
+          <li *ngFor="let item of form.get('checkboxes').value | keyvalue">
+            <label>
+              <input type="checkbox" [formControlName]="item.key" [value]="item.value" /> {{ item.key }}
+            </label>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-row">
+    <button type="submit" [disabled]="!form.valid">Save</button>
+  </div>
+</form> -->
